@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: 
+  description: MyText
+  minimum_age_to_ask: 
+  maximum_age_to_ask: 
+
+two:
+  question: 
+  description: MyText
+  minimum_age_to_ask: 
+  maximum_age_to_ask: 
