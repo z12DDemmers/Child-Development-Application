@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150927030310) do
+ActiveRecord::Schema.define(version: 20151028032059) do
+
+  create_table "answers", force: :cascade do |t|
+    t.boolean "response"
+    t.float   "age_achieved"
+    t.integer "question_id"
+  end
+
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id"
+
+  create_table "children", force: :cascade do |t|
+    t.string  "name"
+    t.integer "age"
+    t.integer "user_id"
+  end
+
+  add_index "children", ["user_id"], name: "index_children_on_user_id"
 
   create_table "domains", force: :cascade do |t|
     t.text     "domain"
@@ -41,5 +57,11 @@ ActiveRecord::Schema.define(version: 20150927030310) do
   end
 
   add_index "subdomains", ["domain_id"], name: "index_subdomains_on_domain_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.string "password_digest"
+  end
 
 end
