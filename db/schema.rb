@@ -11,14 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028032059) do
+ActiveRecord::Schema.define(version: 20151029170908) do
 
   create_table "answers", force: :cascade do |t|
     t.boolean "response"
     t.float   "age_achieved"
     t.integer "question_id"
+    t.integer "child_id"
   end
 
+  add_index "answers", ["child_id"], name: "index_answers_on_child_id"
   add_index "answers", ["question_id"], name: "index_answers_on_question_id"
 
   create_table "children", force: :cascade do |t|
