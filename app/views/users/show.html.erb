@@ -1,2 +1,7 @@
 <%= @user.username %>
 <%= @user.email %>
+<br>
+<%= @children.each do |child| %>
+  <p><%= child.name %></p>
+  <p><%= child.age %></p>
+<% end %>

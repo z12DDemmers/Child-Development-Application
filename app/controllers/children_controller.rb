@@ -9,7 +9,9 @@ class ChildrenController < ApplicationController
   end
 	
   def create
-	
+	@user = User.find(params[:user_id])
+	Child.create(child_params)
+	redirect_to @user
   end
 	
   def edit
@@ -23,4 +25,10 @@ class ChildrenController < ApplicationController
   def destroy
 	
   end
+  
+  private
+  
+    def child_params
+      params.require(:child_of_user).permit(:name,:age,:user_id)
+    end
 end
