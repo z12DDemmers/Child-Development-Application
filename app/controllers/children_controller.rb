@@ -1,4 +1,7 @@
 class ChildrenController < ApplicationController
+  def index
+  
+  end
   def new
 	@user = User.find(params[:user_id])
 	@child = Child.new
@@ -15,7 +18,8 @@ class ChildrenController < ApplicationController
   end
 	
   def edit
-	
+	@user = User.find(params[:user_id])
+	@child = Child.find(params[:id])
   end
 	
   def update
@@ -23,7 +27,10 @@ class ChildrenController < ApplicationController
   end
 	
   def destroy
-	
+    @user = User.find(params[:user_id])
+    @child = Child.find(params[:id])
+    @child.destroy
+	redirect_to @user
   end
   
   private

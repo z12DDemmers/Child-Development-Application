@@ -2,6 +2,12 @@
 <%= @user.email %>
 <br>
 <%= @children.each do |child| %>
-  <p><%= child.name %></p>
-  <p><%= child.age %></p>
+  <tr>
+    <td><%= child.name %></td> 
+	<td><%= child.age %></td>
+	<td><%= link_to 'Edit', edit_user_child_path(@user,child) %> </td>
+	<td><%= link_to 'Delete', user_child_path(@user, child), method: :delete %> </td>
+	<td><%= 
+  </tr>
+  <%= link_to 'New Child', new_user_path(@user,child) %>
 <% end %>
