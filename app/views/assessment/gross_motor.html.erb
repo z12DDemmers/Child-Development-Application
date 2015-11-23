@@ -1,0 +1,7 @@
+<%= form_for [@child,@answer], as: :answer_of_child do |f| %>
+  <%= f.hidden_field :question_id, :value => @question.id %>
+  <%= @question.question %><br>
+  Response:<%= f.text_field :response %><br>
+  <%= @question.description %><br>
+  <%= f.submit "Next" %>
+<% end %>
