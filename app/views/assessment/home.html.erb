@@ -1,0 +1,11 @@
+<%= content_tag :div, data:{urls: @children_links}, id: "radio_container" do -%>
+  <% if @children != nil %>
+    <% @children.each_with_index do |child, index| %>
+	  <%= label :child_name, child.name %>
+      <%= radio_button_tag(:child, index, false, class: "no_class") %>
+	  <br>
+    <% end %>
+  <% end %>
+<% end %>
+<br>
+<a href = "http://www.google.com/"><img src = "https://camo.githubusercontent.com/b13830f5a9baecd3d83ef5cae4d5107d25cdbfbe/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f3732313033382f313732383830352f35336532613364382d363262352d313165332d383964312d3934376632373062646430332e706e67" /></a>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120205133) do
+ActiveRecord::Schema.define(version: 20151130193903) do
 
   create_table "answers", force: :cascade do |t|
     t.boolean "response"
@@ -29,6 +29,15 @@ ActiveRecord::Schema.define(version: 20151120205133) do
     t.integer "age"
     t.integer "user_id"
     t.float   "developmental_age"
+    t.float   "prone_score"
+    t.float   "supine_score"
+    t.float   "responses_score"
+    t.float   "reflexes_score"
+    t.float   "sitting_score"
+    t.float   "standing_score"
+    t.float   "mobility_score"
+    t.float   "throwing_and_catching_score"
+    t.float   "gross_motor_score"
   end
 
   add_index "children", ["user_id"], name: "index_children_on_user_id"

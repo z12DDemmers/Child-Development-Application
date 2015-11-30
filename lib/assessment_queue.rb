@@ -1,10 +1,16 @@
 class AssessmentQueue
-  def initialize(domain_name)
-    @question_queue = []
-		@subdomains = ["Prone","Supine","Responses","Reflexes","Sitting","Standing","Mobility","Throwing and Catching"]
-		@yes_count = 0
+=begin
+	Temporary solution until a better method is found out. The session hash is 
+	only capable of storing JSON format and thus the data type is lost across requests
+	and so the object has to be reinitialized wherever it is used.
+=end
+	def initialize(domain_name, question_set = [], subdomains = ["Prone","Supine","Responses","Reflexes","Sitting","Standing","Mobility","Throwing and Catching"], y_count = 0, last_response = 0)
+		@question_queue = question_set
+		@subdomains = subdomains
 		@domain = domain_name
-  end
+		@yes_count = y_count
+		@last_response = last_response
+	end
   
   def enqueue(question_set)
     if(question_set.empty?) 
@@ -19,7 +25,7 @@ class AssessmentQueue
   end
   
   def is_empty?
-    @question_queue.empty?
+    @question_queue == []
   end
 	
 	def current_subdomain
@@ -44,5 +50,11 @@ class AssessmentQueue
 	
 	def get_domain
 		@domain
+	end
+	def get_last_response
+		@last_response
+	end
+	def get_yes_count
+		@yes_count
 	end
 end

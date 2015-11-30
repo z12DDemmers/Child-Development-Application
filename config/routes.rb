@@ -1,5 +1,5 @@
 Rails.application.routes.draw do  
-
+	root 'assessment#home'
   get 'login' => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   
   resources :children do
     get 'assessment/gross_motor' => 'assessment#gross_motor', :as => :gross_motor
+		get 'assessment/gross_motor_score' => 'assessment#gross_motor_score', :as => :gross_motor_score
 		resources :answers, only: [:create, :update, :destroy]
   end
   # The priority is based upon order of creation: first created -> highest priority.
