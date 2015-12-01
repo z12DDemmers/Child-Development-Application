@@ -11,7 +11,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150927030310) do
+ActiveRecord::Schema.define(version: 20151130193903) do
+
+  create_table "answers", force: :cascade do |t|
+    t.boolean "response"
+    t.float   "age_achieved"
+    t.integer "question_id"
+    t.integer "child_id"
+    t.integer "assessment_number"
+  end
+
+  add_index "answers", ["child_id"], name: "index_answers_on_child_id"
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id"
+
+  create_table "children", force: :cascade do |t|
+    t.string  "name"
+    t.integer "age"
+    t.integer "user_id"
+    t.float   "developmental_age"
+    t.float   "prone_score"
+    t.float   "supine_score"
+    t.float   "responses_score"
+    t.float   "reflexes_score"
+    t.float   "sitting_score"
+    t.float   "standing_score"
+    t.float   "mobility_score"
+    t.float   "throwing_and_catching_score"
+    t.float   "gross_motor_score"
+  end
+
+  add_index "children", ["user_id"], name: "index_children_on_user_id"
 
   create_table "domains", force: :cascade do |t|
     t.text     "domain"
@@ -19,6 +48,8 @@ ActiveRecord::Schema.define(version: 20150927030310) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end
+
+  add_index "domains", ["domain"], name: "index_domains_on_domain", unique: true
 
   create_table "questions", force: :cascade do |t|
     t.text     "question"
@@ -30,6 +61,7 @@ ActiveRecord::Schema.define(version: 20150927030310) do
     t.integer  "subdomain_id"
   end
 
+  add_index "questions", ["question"], name: "index_questions_on_question", unique: true
   add_index "questions", ["subdomain_id"], name: "index_questions_on_subdomain_id"
 
   create_table "subdomains", force: :cascade do |t|
@@ -41,5 +73,12 @@ ActiveRecord::Schema.define(version: 20150927030310) do
   end
 
   add_index "subdomains", ["domain_id"], name: "index_subdomains_on_domain_id"
+  add_index "subdomains", ["subdomain"], name: "index_subdomains_on_subdomain", unique: true
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.string "password_digest"
+  end
 
 end

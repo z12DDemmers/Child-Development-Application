@@ -3,8 +3,8 @@ class CreateQuestions < ActiveRecord::Migration
     create_table :questions do |t|
       t.text :question
       t.text :description
-      t.real :minimum_age_to_ask
-      t.real :maximum_age_to_ask
+      t.float :minimum_age_to_ask
+      t.float :maximum_age_to_ask
 
       t.timestamps null: false
     end
