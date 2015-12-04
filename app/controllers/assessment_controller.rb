@@ -4,9 +4,10 @@ class AssessmentController < ApplicationController
 	#Use devise gem later for easier authentication handling/web page choosing as well
 		#i.e. what pages to show for a logged in and not logged in user
 	def home
+		reset_session
 		@children = nil
 		@children_links = [] #Holds links for javascript manipulation.
-		session[:user_id] = 3
+		session[:user_id] = 6
 		if session[:user_id]
 			@children = Child.joins(:user).where(:users =>{:id => session[:user_id]})
 			@children.each do |child| #Add links, there will be 6 per child eventually.
@@ -18,6 +19,7 @@ class AssessmentController < ApplicationController
   def gross_motor
 		#Will probably be rolled into one function so it can be used in every
 		#domain action to keep with Rails' DRY principle.
+		
 		session[:gross_motor_queue] ||= AssessmentQueue.new("Gross Motor")
 		if(session[:gross_motor_queue].class != AssessmentQueue)
 		  session[:gross_motor_queue] = reinitialize_queue(session[:gross_motor_queue])
@@ -36,18 +38,26 @@ class AssessmentController < ApplicationController
 				@child.developmental_age -= 2.0
 				@child.save
 			end
-			questions = Question.joins(:subdomain) \
+=begin
+	Question query below:  Get the id (id only due to size limit of session hash)
+	of all questions that belong to the current subdomain where the developmental age
+	of the child is greater than or equal to Question.minimum_age_to_ask and where
+	the question hasn't been answered yet.
+	*Note - has to be modified to include questions that recieved a no response that 
+	 have not been asked in a certain timeframe.
+=end
+			questions = Question.select("id").joins(:subdomain) \
 			.where(:subdomains =>{:subdomain => domain_queue.current_subdomain}) \
-			.where("? >= minimum_age_to_ask AND ? <= maximum_age_to_ask",@child.developmental_age,@child.developmental_age) \
-			.joins(:answers).where.not(:answers=>{:child_id => params[:child_id]})
-			byebug
+			.where("? < minimum_age_to_ask",@child.developmental_age) \
+			.where("questions.id not in (?)", Answer.select("question_id").joins(:child).where("children.id == ?", params[:child_id]))
 			if domain_queue.enqueue(questions.to_a)
+			
 			elsif #Can't retrieve more questions, score the subdomain.
 				score_subdomain(domain_queue.move_to_next_subdomain)
 				redirect_to child_gross_motor_path(@child)
 			end
 		end
-		@question = domain_queue.dequeue
+		@question = Question.find((domain_queue.dequeue).id)
 		@answer = Answer.new
   end
 	
@@ -68,6 +78,7 @@ class AssessmentController < ApplicationController
 		
 		def score_subdomain(subdomain)
 			subdomain_symbol = string_to_database_attribute(subdomain)
+			child = Child.find(params[:child_id])
 =begin
 				The subdomain scores should be the minimum_age_to_ask of the answers which is acquired
 				by getting the subdomain id field, getting all questions associated with that subdomain id,
@@ -76,9 +87,9 @@ class AssessmentController < ApplicationController
 =end
 			subdomain_answers = Question.select("minimum_age_to_ask").joins(:subdomain) \
 			.where(:subdomains =>{:subdomain => subdomain}).joins(:answers) \
-			.where(:answers =>{:child_id => params[:child_id]})
+			.where(:answers =>{:child_id => params[:child_id]}).to_a
 			#If no subdomain questions were asked, the score is 0 and not considered in the domain score
-			if subdomain_answers == nil
+			if subdomain_answers == []
 				child.update(subdomain_symbol => 0)
 				return
 			end
@@ -89,9 +100,7 @@ class AssessmentController < ApplicationController
 					min = subdomain_answer[:minimum_age_to_ask]
 				end
 			end
-			child = Child.find(params[:child_id])
 			child.update(subdomain_symbol => min)
-			
 		end
 		
 		def score_domain(domain)
@@ -107,7 +116,7 @@ class AssessmentController < ApplicationController
 			end
 			subdomain_scores = subdomain_scores.sort
 			mid = subdomain_scores.length / 2
-			child.update(domain_symbol => subdomain_scores.length.odd? ? subdomain_scores[mid] : 0.5 * (subdomain_scores[mid] + subdomain_scores[mid - 1]))
+			child.update(domain_symbol => subdomain_scores[mid] )
 			#redirect_to gross_motor_score page
 		end
 end

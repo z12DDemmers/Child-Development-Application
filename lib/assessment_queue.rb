@@ -10,13 +10,14 @@ class AssessmentQueue
 		@domain = domain_name
 		@yes_count = y_count
 		@last_response = last_response
+		@developmental_age = 
 	end
   
   def enqueue(question_set)
     if(question_set.empty?) 
 		  return false
 		end
-		@question_queue = question_set.to_a
+		@question_queue = question_set
 		return true
   end
   

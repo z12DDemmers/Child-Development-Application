@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 20151130193903) do
     t.float   "age_achieved"
     t.integer "question_id"
     t.integer "child_id"
-    t.integer "assessment_number"
   end
 
   add_index "answers", ["child_id"], name: "index_answers_on_child_id"
