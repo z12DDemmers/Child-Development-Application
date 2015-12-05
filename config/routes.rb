@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
+	get 'delete_answers' => 'assessment#delete_answers'
 
   resources :users do
     resources :children

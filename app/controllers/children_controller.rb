@@ -24,10 +24,14 @@ class ChildrenController < ApplicationController
   end
 	
   def destroy
-    @user = User.find(params[:user_id])
-    @child = Child.find(params[:id])
-    @child.destroy
-	redirect_to @user
+    user = User.find(params[:user_id])
+    child = Child.find(params[:id])
+		answers_of_child = Answer.where(:child_id => child.id)
+		answers_of_child.each do |answer_of_child|
+			answer_of_child.destroy
+		end
+    child.destroy
+		redirect_to user and return
   end
   
   private

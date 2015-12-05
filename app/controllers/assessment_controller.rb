@@ -7,7 +7,7 @@ class AssessmentController < ApplicationController
 		reset_session
 		@children = nil
 		@children_links = [] #Holds links for javascript manipulation.
-		session[:user_id] = 6
+		session[:user_id] = 3
 		if session[:user_id]
 			@children = Child.joins(:user).where(:users =>{:id => session[:user_id]})
 			@children.each do |child| #Add links, there will be 6 per child eventually.
@@ -16,10 +16,15 @@ class AssessmentController < ApplicationController
 		end
 	end
 	
+	def delete_answers
+		reset_session
+		Answer.delete_all
+		redirect_to root_path and return
+	end
+	
   def gross_motor
 		#Will probably be rolled into one function so it can be used in every
 		#domain action to keep with Rails' DRY principle.
-		
 		session[:gross_motor_queue] ||= AssessmentQueue.new("Gross Motor")
 		if(session[:gross_motor_queue].class != AssessmentQueue)
 		  session[:gross_motor_queue] = reinitialize_queue(session[:gross_motor_queue])
@@ -32,39 +37,35 @@ class AssessmentController < ApplicationController
 			redirect_to child_gross_motor_path(@child)
 		elsif domain_queue.finished_domain?
 			score_domain(domain_queue.get_domain)
-			redirect_to child_gross_motor_score_path(@child)
+			redirect_to child_gross_motor_score_path(@child) and return
     elsif domain_queue.is_empty?
 			if domain_queue.get_last_response == 0 #include < 2 age check to score sub_domain
 				@child.developmental_age -= 2.0
 				@child.save
 			end
-=begin
-	Question query below:  Get the id (id only due to size limit of session hash)
-	of all questions that belong to the current subdomain where the developmental age
-	of the child is greater than or equal to Question.minimum_age_to_ask and where
-	the question hasn't been answered yet.
-	*Note - has to be modified to include questions that recieved a no response that 
-	 have not been asked in a certain timeframe.
-=end
-			questions = Question.select("id").joins(:subdomain) \
+			#get questions and convert to array
+			temp = Question.select("id").joins(:subdomain) \
 			.where(:subdomains =>{:subdomain => domain_queue.current_subdomain}) \
-			.where("? < minimum_age_to_ask",@child.developmental_age) \
-			.where("questions.id not in (?)", Answer.select("question_id").joins(:child).where("children.id == ?", params[:child_id]))
-			if domain_queue.enqueue(questions.to_a)
-			
-			elsif #Can't retrieve more questions, score the subdomain.
+			.where("? > minimum_age_to_ask",@child.developmental_age) \
+			.where("questions.id not in (?)", Answer.select("question_id").joins(:child).where("children.id == ?", params[:child_id])).to_a
+			#Extract only the id data, numbers, from the questions cause of session hash issues with AssessmentQueue
+			questions = []
+			temp.each_with_index do |question, index|
+				questions[index] = question.id
+			end
+			if domain_queue.enqueue(questions)
+			else #Can't retrieve more questions, score the subdomain.
 				score_subdomain(domain_queue.move_to_next_subdomain)
-				redirect_to child_gross_motor_path(@child)
+				redirect_to child_gross_motor_path(@child) and return
 			end
 		end
-		@question = Question.find((domain_queue.dequeue).id)
+		@question = Question.find(domain_queue.dequeue)
 		@answer = Answer.new
   end
 	
 	def gross_motor_score
 		@child = Child.find(params[:child_id])
 	end
-	
 	private
 		#all (sub)domain score database attributes are the downcased, underscore separated
 		#version of their respective names appended with "_score"
@@ -79,12 +80,6 @@ class AssessmentController < ApplicationController
 		def score_subdomain(subdomain)
 			subdomain_symbol = string_to_database_attribute(subdomain)
 			child = Child.find(params[:child_id])
-=begin
-				The subdomain scores should be the minimum_age_to_ask of the answers which is acquired
-				by getting the subdomain id field, getting all questions associated with that subdomain id,
-				and joining those questions with the answers table and keeping only those which have an answer
-				for that particular id and ones answered only by the current child.
-=end
 			subdomain_answers = Question.select("minimum_age_to_ask").joins(:subdomain) \
 			.where(:subdomains =>{:subdomain => subdomain}).joins(:answers) \
 			.where(:answers =>{:child_id => params[:child_id]}).to_a
@@ -117,6 +112,5 @@ class AssessmentController < ApplicationController
 			subdomain_scores = subdomain_scores.sort
 			mid = subdomain_scores.length / 2
 			child.update(domain_symbol => subdomain_scores[mid] )
-			#redirect_to gross_motor_score page
 		end
 end

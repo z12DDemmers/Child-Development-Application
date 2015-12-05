@@ -10,11 +10,11 @@ class AssessmentQueue
 		@domain = domain_name
 		@yes_count = y_count
 		@last_response = last_response
-		@developmental_age = 
+		#add Developmental Age here.
 	end
   
   def enqueue(question_set)
-    if(question_set.empty?) 
+    if question_set.empty?
 		  return false
 		end
 		@question_queue = question_set
@@ -26,7 +26,7 @@ class AssessmentQueue
   end
   
   def is_empty?
-    @question_queue == []
+    @question_queue.empty?
   end
 	
 	def current_subdomain
