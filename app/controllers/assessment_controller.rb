@@ -1,5 +1,5 @@
 class AssessmentController < ApplicationController
-	before_action :logged_in?, only: [:gross_motor,:gross_motor_score]
+	before_action :authenticated?, only: [:gross_motor,:gross_motor_score]
 	#Lots of redundancy or what feels like needless recalculation.  Refactor or something later.
 	#There seems to be a lot of what, to me (Nav), feels like bad or wrong practices here too.
 	#Use devise gem later for easier authentication handling/web page choosing as well

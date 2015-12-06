@@ -1,3 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>First Steps</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/indexCss/bootstrap.min.css" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="css/indexCss/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/indexCss/creative.css" type="text/css">
+
+    <!-- HTML5 Shim and Respond.loginJS IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.loginJS doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.loginJS"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.loginJS/1.4.2/respond.min.loginJS"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">First Steps</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="#about">About Us</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#services">Why Us</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Categories</a>
+                    </li>
+					<% if logged_in? %>
+					  <li>
+					    <%= link_to @user.username, @user, method: :get %>
+					  </li>
+					  <li>
+						<%= link_to "Logout", logout_path, method: :delete %>
+					  </li>
+					<% else %>
+					  <li>
+						  <%= link_to "Signup", signup_path %>
+					  </li>
+                      <li>
+                          <%= link_to "Login", login_path %>
+                      </li>
+					<% end %>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1>Get An Evaluation Today</h1>
+                <p>We're here to put the power of knowledge in your hands!
+                Keep Informed with your child's development progress.</p>
+                <hr>
+				<% if !logged_in? %>
+				  <%= button_to "Take Next Steps",{action: "new", controller: "users"},method: :get, class: "btn btn-primary btn-xl page-scroll" %>
+				<% end %>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-primary" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">We are here to keep you informed</h2>
+                    <hr class="light">
+                    <p class="text-faded">First steps is motivated to help parents feel informed on their child's developmental progress. We have developed a optimized algorithm oriented around the industry HELP Child Development progress sheets. Industry leading social workers use these sheets to evaluate children, and we are putting it in the hands of the parents.</p>
+					<% if !logged_in? %>
+					  <%= button_to "Take First Steps",{action: "new", controller: "users"},method: :get, class: "btn btn-default btn-xl" %>
+					<% end %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Why Choose Us</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-diamond wow bounceIn text-primary"></i>
+                        <h3>Optimized Algorithm</h3>
+                        <p class="text-muted">Our Algorithm runs at a high efficiency and produces sound results every time it runs</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <h3>Industry Standards</h3>
+                        <p class="text-muted">Our Algorithm runs according to industry standards and follows the HELP development evaluation sheets.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <h3>Provide Detailed Evaluation</h3>
+                        <p class="text-muted">We provide parents with detailed results of developmental progress for the specific child's age.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                        <h3>Get you Connected</h3>
+                        <p class="text-muted">After we produce results, we are happy to provide regional child development centers if youre interested in taking the next step!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 <% if session[:user_id] %>  
   <%= content_tag :div, data:{urls: @children_links}, id: "radio_container" do -%>
     <% @children.each_with_index do |child, index| %>
@@ -15,5 +171,150 @@
   <% end %>
 <% end %>
 <br>
-<a href = "http://www.google.com/"><img src = "https://camo.githubusercontent.com/b13830f5a9baecd3d83ef5cae4d5107d25cdbfbe/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f3732313033382f313732383830352f35336532613364382d363262352d313165332d383964312d3934376632373062646430332e706e67" /></a>
-<%= link_to "Delete Answers", delete_answers_path %>
+    <section class="no-padding" id="portfolio">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                <div class="col-lg-4 col-sm-6">
+                    <a href="ChooseChild.html" class="portfolio-box" id = "cognitive_link">
+                        <img src="assets/1.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Cognitive
+                                </div>
+                                <div class="project-name">
+                                    Evaluate Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="ChooseChild.html" class="portfolio-box" id = "social_link">
+                        <img src="assets/2.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Social
+                                </div>
+                                <div class="project-name">
+                                    Evaluate Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="ChooseChild.html" class="portfolio-box" id = "fine_motor_link">
+                        <img src="assets/3.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Fine Motor
+                                </div>
+                                <div class="project-name">
+                                    Evaluate Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="ChooseChild.html" class="portfolio-box" id = "gross_motor_link">
+                        <img src="assets/4.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Gross Motor
+                                </div>
+                                <div class="project-name">
+                                    Evaluate Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="ChooseChild.html" class="portfolio-box" id = "language_link">
+                        <img src="assets/5.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Language
+                                </div>
+                                <div class="project-name">
+                                    Evaluate Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <a href="ChooseChild.html" class="portfolio-box" id = "self_help_link">
+                        <img src="assets/6.jpg" class="img-responsive" alt="">
+                        <div class="portfolio-box-caption">
+                            <div class="portfolio-box-caption-content">
+                                <div class="project-category text-faded">
+                                    Self Help
+                                </div>
+                                <div class="project-name">
+                                    Evaluate Now
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <aside class="bg-dark">
+        <div class="container text-center">
+            <div class="call-to-action">
+                <h2>Take your first steps today!</h2>
+				<% if !logged_in? %>
+                  <%= button_to "Start Now",{action: "new", controller: "users"},method: :get, class: "btn btn-default btn-xl wow tada" %>
+				<% end %>
+            </div>
+        </div>
+    </aside>
+  <% if !logged_in? %>
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Login To Keep Connected</h2>
+                    <hr class="primary">
+                    <p>Ready to take your first steps and get an evaluation, create an account or sign in to get started today!</p>
+                </div>
+                <div class="col-lg-4 col-lg-offset-2 text-center">
+                    <i class="fa fa-phone fa-3x wow bounceIn"></i>
+                    <p><%= link_to "Login", login_path %></p>
+                </div>
+                <div class="col-lg-4 text-center">
+                    <i class="fa fa-envelope-o fa-3x wow bounceIn" data-wow-delay=".1s"></i>
+                    <p><%= link_to "Signup", signup_path %></p>
+                </div>
+            </div>
+        </div>
+    </section>
+  <% end %>
+
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/jquery.fittext.js"></script>
+    <script src="js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/creative.js"></script>
+
+</body>
+
+</html>
