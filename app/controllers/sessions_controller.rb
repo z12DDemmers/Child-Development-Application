@@ -1,4 +1,4 @@
-class SessionsControllerController < ApplicationController
+class SessionsController < ApplicationController
   def new
   end
   
@@ -14,6 +14,8 @@ class SessionsControllerController < ApplicationController
   end
   
   def destroy
-  
+		reset_session
+		flash[:success] = "You have been successfully logged out."
+		redirect_to root_path and return
   end
 end

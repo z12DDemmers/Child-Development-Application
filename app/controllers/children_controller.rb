@@ -1,9 +1,10 @@
 class ChildrenController < ApplicationController
+=begin
   def new
 	@user = User.find(params[:user_id])
 	@child = Child.new
   end
-  
+=end 
   def show
 	
   end

@@ -1,10 +1,17 @@
-<%= content_tag :div, data:{urls: @children_links}, id: "radio_container" do -%>
-  <% if @children != nil %>
+<% if session[:user_id] %>  
+  <%= content_tag :div, data:{urls: @children_links}, id: "radio_container" do -%>
     <% @children.each_with_index do |child, index| %>
 	  <%= label :child_name, child.name %>
       <%= radio_button_tag(:child, index, false, class: "no_class") %>
 	  <br>
     <% end %>
+  <% end %>
+  <%= button_tag "Show New Child Form", id: "new_child_form_button" %>
+  <%= form_for [@user, @child],html: {id: "new_child_form"}, as: :child_of_user do |f| %>
+    <%= f.hidden_field :user_id, :value => @user.id %>
+    <%= f.text_field :name %>
+    <%= f.text_field :age %>
+    <%= f.submit "Create" %>
   <% end %>
 <% end %>
 <br>

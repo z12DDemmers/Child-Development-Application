@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 	def show
 		@user = User.find(params[:id])
 		@children = Child.where(user_id: params[:id])
+		@child = Child.new
 		
 	end
 	private

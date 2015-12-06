@@ -1,10 +1,18 @@
 <%= @user.username %>
 <%= @user.email %>
+<%= link_to "Logout", logout_path, method: :delete %>
 <br>
 <% @children.each do |child| %>
-    <td><%= child.name %></td> 
-	<td><%= child.age %></td>
-	<td><%= link_to 'Edit', edit_user_child_path(@user,child) %> </td>
-	<td><%= link_to 'Delete', user_child_path(@user, child), method: :delete %> </td>
-  <%= link_to 'New Child', new_user_path(@user,child) %>
+  <td><%= child.name %></td> 
+  <td><%= child.age %></td>
+  <td><%= link_to 'Edit', edit_user_child_path(@user,child) %> </td>
+  <td><%= link_to 'Delete', user_child_path(@user, child), method: :delete %> </td>
+  <br>
+<% end %>
+<%= button_tag "Show New Child Form", id: "new_child_form_button" %>
+<%= form_for [@user, @child],html: {id: "new_child_form"}, as: :child_of_user do |f| %>
+  <%= f.hidden_field :user_id, :value => @user.id %>
+  <%= f.text_field :name %>
+  <%= f.text_field :age %>
+  <%= f.submit "Create" %>
 <% end %>

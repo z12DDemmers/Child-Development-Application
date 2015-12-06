@@ -5,7 +5,7 @@
   <%= f.hidden_field :previous_action, :value => child_gross_motor_path(@child) %>
   <%= @question["question"] %><br>
   Response:<%= f.text_field :response %><br>
-  <%= @question["description"] %><br>
+  <%= content_tag :p, @question["description"], id: "question_description" %><br>
   <%= f.submit "Next" %>
 <% end %>
 <%= console %>

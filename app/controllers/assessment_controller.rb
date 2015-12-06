@@ -1,19 +1,20 @@
 class AssessmentController < ApplicationController
+	before_action :logged_in?, only: [:gross_motor,:gross_motor_score]
 	#Lots of redundancy or what feels like needless recalculation.  Refactor or something later.
 	#There seems to be a lot of what, to me (Nav), feels like bad or wrong practices here too.
 	#Use devise gem later for easier authentication handling/web page choosing as well
 		#i.e. what pages to show for a logged in and not logged in user
 	def home
-		reset_session
-		@children = nil
-		@children_links = [] #Holds links for javascript manipulation.
-		session[:user_id] = 3
-		if session[:user_id]
+		if(session[:user_id])
+			@user = User.find(session[:user_id])
+			@children = nil
+			@children_links = [] #Holds links for javascript manipulation.
 			@children = Child.joins(:user).where(:users =>{:id => session[:user_id]})
 			@children.each do |child| #Add links, there will be 6 per child eventually.
 				@children_links += [child_gross_motor_path(child)] 
 			end
 		end
+		@child = Child.new
 	end
 	
 	def delete_answers
@@ -23,6 +24,7 @@ class AssessmentController < ApplicationController
 	end
 	
   def gross_motor
+		child_belongs_to_user?(params[:child_id])
 		#Will probably be rolled into one function so it can be used in every
 		#domain action to keep with Rails' DRY principle.
 		session[:gross_motor_queue] ||= AssessmentQueue.new("Gross Motor")
@@ -64,6 +66,7 @@ class AssessmentController < ApplicationController
   end
 	
 	def gross_motor_score
+		child_belongs_to_user?(params[:child_id])
 		@child = Child.find(params[:child_id])
 	end
 	private
@@ -112,5 +115,15 @@ class AssessmentController < ApplicationController
 			subdomain_scores = subdomain_scores.sort
 			mid = subdomain_scores.length / 2
 			child.update(domain_symbol => subdomain_scores[mid] )
+		end
+		
+		def child_belongs_to_user?(child_id)
+			child = Child.find(child_id)
+			if child.user_id != session[:user_id]
+				flash[:error] = "You are not authorized to view this page."
+				redirect_to root_path and return
+			else
+				true
+			end
 		end
 end
