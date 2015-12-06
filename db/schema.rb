@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130193903) do
+ActiveRecord::Schema.define(version: 20151206215029) do
 
   create_table "answers", force: :cascade do |t|
     t.boolean "response"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20151130193903) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.integer  "subdomain_id"
+    t.text     "exercise"
   end
 
   add_index "questions", ["question"], name: "index_questions_on_question", unique: true
