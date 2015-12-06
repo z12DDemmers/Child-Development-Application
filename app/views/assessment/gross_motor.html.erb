@@ -1,3 +1,6 @@
+<%= render partial: "shared/navigation_bar", locals: {user: @user} %>
+<br>
+<br>
 <%= form_for [@child,@answer], as: :answer_of_child do |f| %>
   <%= f.hidden_field :domain_name, :value => @domain_name %>
   <%= f.hidden_field :child_id, :value => @child.id %>

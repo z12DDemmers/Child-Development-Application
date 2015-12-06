@@ -25,6 +25,7 @@ class AssessmentController < ApplicationController
 	
   def gross_motor
 		child_belongs_to_user?(params[:child_id])
+		@user = User.find(session[:user_id])
 		#Will probably be rolled into one function so it can be used in every
 		#domain action to keep with Rails' DRY principle.
 		session[:gross_motor_queue] ||= AssessmentQueue.new("Gross Motor")
@@ -67,6 +68,7 @@ class AssessmentController < ApplicationController
 	
 	def gross_motor_score
 		child_belongs_to_user?(params[:child_id])
+		@user = User.find(session[:user_id])
 		@child = Child.find(params[:child_id])
 	end
 	private
