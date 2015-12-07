@@ -1,0 +1,5 @@
+<%= render partial: "shared/navigation_bar", locals: {user: @user} %>
+<br>
+<br>
+<%= render partial: "shared/question_form", locals: {child: @child, answer: @answer, domain_name: @domain_name, question: @question, previous: child_receptive_language_path(@child)} %>
+<%= console %>

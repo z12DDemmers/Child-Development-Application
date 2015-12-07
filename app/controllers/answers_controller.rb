@@ -7,14 +7,14 @@ class AnswersController < ApplicationController
 	we increase the yes_count of the AssessmentQueue. So I will have to
 	modify the hash that AssessmentQueue becomes to increase the yes_count.
 =end
-		if params[:response] == true
+		if params[:answer_of_child][:response] == "true"
 			#Code violates DRY fix later.
-		  session[(params[:answer_of_child][:domain_name].downcase.tr(" ","_") + "_queue").to_sym]["yes_count"] += 1
-			session[(params[:answer_of_child][:domain_name].downcase.tr(" ","_") + "_queue").to_sym]["last_response"] = 1
+		  session[params[:answer_of_child][:child_id].to_sym][(params[:answer_of_child][:domain_name].downcase.tr(" ","_") + "_queue")]["yes_count"] += 1
+			session[params[:answer_of_child][:child_id].to_sym][(params[:answer_of_child][:domain_name].downcase.tr(" ","_") + "_queue")]["last_response"] = 1
 		else
-			session[(params[:answer_of_child][:domain_name].downcase.tr(" ","_") + "_queue").to_sym]["last_response"] = 0
+			session[params[:answer_of_child][:child_id].to_sym][(params[:answer_of_child][:domain_name].downcase.tr(" ","_") + "_queue")]["last_response"] = 0
 		end
-		redirect_to params[:answer_of_child][:previous_action]
+		redirect_to params[:answer_of_child][:previous]
 	end
 	
 	private

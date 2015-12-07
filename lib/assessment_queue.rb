@@ -4,9 +4,15 @@ class AssessmentQueue
 	only capable of storing JSON format and thus the data type is lost across requests
 	and so the object has to be reinitialized wherever it is used.
 =end
-	def initialize(domain_name, question_set = [], subdomains = ["Prone","Supine","Responses","Reflexes","Sitting","Standing","Mobility","Throwing and Catching"], y_count = 0, last_response = 0)
+	def initialize(domain_name, question_set = [],subdomains = [], y_count = 0, last_response = 0, previously_initialized = false)
 		@question_queue = question_set
 		@subdomains = subdomains
+		if !previously_initialized
+			temp = Subdomain.select("subdomain").joins(:domain).where(:domains =>{:domain => domain_name}).to_a
+			temp.each_with_index do |subdom, index|
+				@subdomains[index] = subdom.subdomain
+			end
+		end
 		@domain = domain_name
 		@yes_count = y_count
 		@last_response = last_response
@@ -57,5 +63,9 @@ class AssessmentQueue
 	end
 	def get_yes_count
 		@yes_count
+	end
+	
+	def reset_yes_count
+		@yes_count = 0
 	end
 end

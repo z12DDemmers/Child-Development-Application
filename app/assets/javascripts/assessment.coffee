@@ -5,9 +5,9 @@ jQuery ->
   $(".no_class").change ->
     child_index = $('input[name="child"]:checked').val()
     children_links = $("#radio_container").data("urls")
-    $("#gross_motor_link").attr("href", children_links[child_index])
-    $("#language_link").attr("href", children_links[child_index])
+    $("#gross_motor_link").attr("href", children_links[child_index][0])
+    $("#language_link").attr("href", children_links[child_index][2])
     $("#social_link").attr("href", children_links[child_index])
     $("#fine_motor_link").attr("href", children_links[child_index])
-    $("#cognitive_link").attr("href", children_links[child_index])
+    $("#cognitive_link").attr("href", children_links[child_index][1])
     $("#self_help_link").attr("href", children_links[child_index])

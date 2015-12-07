@@ -13,6 +13,10 @@ Rails.application.routes.draw do
   resources :children do
     get 'assessment/gross_motor' => 'assessment#gross_motor', :as => :gross_motor
 		get 'assessment/gross_motor_score' => 'assessment#gross_motor_score', :as => :gross_motor_score
+		get 'assessment/cognitive' => 'assessment#cognitive', :as => :cognitive
+		get 'assessment/cognitive_score' => 'assessment#cognitive_score', :as => :cognitive_score
+		get 'assessment/receptive_language' => 'assessment#receptive_language', :as => :receptive_language
+		get 'assessment/receptive_language_score' => 'assessment#receptive_language_score', :as => :receptive_language_score
 		resources :answers, only: [:create, :update, :destroy]
   end
   # The priority is based upon order of creation: first created -> highest priority.

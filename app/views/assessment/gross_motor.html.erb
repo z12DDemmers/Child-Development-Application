@@ -1,14 +1,5 @@
 <%= render partial: "shared/navigation_bar", locals: {user: @user} %>
 <br>
 <br>
-<%= form_for [@child,@answer], as: :answer_of_child do |f| %>
-  <%= f.hidden_field :domain_name, :value => @domain_name %>
-  <%= f.hidden_field :child_id, :value => @child.id %>
-  <%= f.hidden_field :question_id, :value => @question["id"] %>
-  <%= f.hidden_field :previous_action, :value => child_gross_motor_path(@child) %>
-  <%= @question["question"] %><br>
-  Response:<%= f.text_field :response %><br>
-  <%= content_tag :p, @question["description"], id: "question_description" %><br>
-  <%= f.submit "Next" %>
-<% end %>
+<%= render partial: "shared/question_form", locals: {child: @child, answer: @answer, domain_name: @domain_name, question: @question, previous: child_gross_motor_path(@child)} %>
 <%= console %>

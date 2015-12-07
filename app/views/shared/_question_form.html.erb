@@ -1,0 +1,10 @@
+<%= form_for [child,answer], as: :answer_of_child do |f| %>
+  <%= f.hidden_field :domain_name, :value => domain_name %>
+  <%= f.hidden_field :child_id, :value => child.id %>
+  <%= f.hidden_field :question_id, :value => question["id"] %>
+  <%= f.hidden_field :previous, :value => previous %>
+  <%= question["question"] %><br>
+  Response:<%= f.text_field :response %><br>
+  <%= content_tag :p, question["description"], id: "question_description" %><br>
+  <%= f.submit "Next" %>
+<% end %>
