@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20151207191920) do
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
     t.integer  "subdomain_id"
+    t.text     "exercise"
   end
 
   add_index "questions", ["question"], name: "index_questions_on_question", unique: true
