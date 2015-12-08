@@ -3,7 +3,7 @@ module AssessmentHelper
 		domain_symbol = (domain.downcase.tr(" ","_") + "_queue").to_sym
 		child_symbol = child_id.to_s.to_sym
 		@user = User.find(session[:user_id])
-		session[child_symbol][domain_symbol] ||= {domain_symbol => AssessmentQueue.new(domain)}
+		session[child_symbol] ||= {domain_symbol => AssessmentQueue.new(domain)}
 		if(session[child_symbol][domain_symbol].class != AssessmentQueue)
 			session[child_symbol][domain_symbol] = reinitialize_queue(session[child_symbol][domain_symbol.to_s])
 		end
@@ -64,10 +64,10 @@ module AssessmentHelper
 			child.update(subdomain_symbol => 0)
 			return
 		end
-		min = 1000
+		min = -1
 		#Probably a better way to do this than below.
 		subdomain_answers.each do |subdomain_answer|
-			if(subdomain_answer[:minimum_age_to_ask] < min)
+			if(subdomain_answer[:minimum_age_to_ask] > min)
 				min = subdomain_answer[:minimum_age_to_ask]
 			end
 		end
