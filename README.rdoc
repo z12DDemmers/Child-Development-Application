@@ -20,15 +20,15 @@ development tools to run it.
 6. The application should now be running.  To stop execution either close the Command Prompt With Ruby
    on Rails or press ctrl+c keys while the Rails Command Prompt is the active window.
 * Database creation
-First, follow the steps in the "Running the Application" section at the top up to step 3.1. <br />
-From here, execute the command "rake db:migrate" in the Command Prompt. <br />
-You may also have to enter this command "rake db:migrate RAILS_ENV=test". <br />
-That's it!  The database schema has been created.
+First, follow the steps in the "Running the Application" section at the top up to step 3.1.  
+From here, execute the command "rake db:migrate" in the Command Prompt.  
+You may also have to enter this command "rake db:migrate RAILS_ENV=test".  
+That's it!  The database schema has been created.  
 * Database initialization
-To load in the initial set of questions execute the following tasks. They must be in this order! <br />
+To load in the initial set of questions execute the following tasks. They must be in this order!  
 
-rake add_data_to_domain:add_data <br />
+rake add_data_to_domain:add_data  
 
-rake add_data_to_subdomain:add_data <br />
+rake add_data_to_subdomain:add_data  
 
-rake add_data_to_question:add_data
+rake add_data_to_question:add_data  
