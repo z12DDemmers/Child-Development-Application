@@ -1,28 +1,31 @@
 == README
+* Ruby/Rails version
+ruby 2.1.5p273 (2014-11-13 revision 48405) [i386-mingw32]
+Rails 4.2.4
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
+* Running the Application
+Since we have not deployed the application anywhere you will need to get the
+development tools to run it.
+1. I followed http://installfest.railsbridge.org/installfest/
+2. Once you've gotten all of that, fire up the Command Prompt With Ruby on Rails 
+   (this is on Windows) or whatever your operating system's equivalent 
+   is that was installed during the installfest.
+3. Change directory using the appropriate command (cd in the case of Windows) to where
+   the application is stored.
+3.1. Since the database schema and actual contents may not be on github, follow the 
+     directions under the Database creation and initialization sections.
+4. Type the command "rails server" (without quotes) and wait while it sets everything up.
+5. After about thirty seconds everything should be good to go.  From here you can open your
+   browser and go to localhost:3000 (type that in the address bar in the same way you would google.com)
+6. The application should now be running.  To stop execution either close the Command Prompt With Ruby
+   on Rails or press ctrl+c keys while the Rails Command Prompt is the active window.
 * Database creation
-
+First, follow the steps in the "Running the Application" section at the top up to step 3.1.
+From here, execute the command "rake db:migrate" in the Command Prompt.
+You may also have to enter this command "rake db:migrate RAILS_ENV=test".
+That's it!  The database schema has been created.
 * Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+To load in the initial set of questions execute the following tasks. They must be in this order!
+rake add_data_to_domain:add_data
+rake add_data_to_subdomain:add_data
+rake add_data_to_question:add_data
